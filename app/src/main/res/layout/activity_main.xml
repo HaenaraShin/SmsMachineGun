@@ -15,11 +15,30 @@
         app:layout_constraintTop_toTopOf="@id/edtPhone"
         app:layout_constraintBottom_toBottomOf="@id/edtPhone"
         android:gravity="center" />
+
     <EditText
         android:id="@+id/edtPhone"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/barrier"
+        app:layout_constraintRight_toRightOf="parent"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/tvPhone2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="전화번호2 : "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/edtPhone2"
+        app:layout_constraintBottom_toBottomOf="@id/edtPhone2"
+        android:gravity="center" />
+    <EditText
+        android:id="@+id/edtPhone2"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edtPhone"
         app:layout_constraintLeft_toRightOf="@id/barrier"
         app:layout_constraintRight_toRightOf="parent"
         android:inputType="number"/>
@@ -37,7 +56,7 @@
         android:id="@+id/edtMessage"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/edtPhone"
+        app:layout_constraintTop_toBottomOf="@id/edtPhone2"
         app:layout_constraintLeft_toRightOf="@id/barrier"
         app:layout_constraintRight_toRightOf="parent"/>
 

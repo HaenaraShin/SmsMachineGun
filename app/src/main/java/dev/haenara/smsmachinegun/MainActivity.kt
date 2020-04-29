@@ -3,13 +3,11 @@ package dev.haenara.smsmachinegun
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.ACTION_VIEW
 import android.content.SharedPreferences
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.telephony.SmsManager
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,7 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    lateinit var shared : SharedPreferences
+    private lateinit var shared : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         shared = getSharedPreferences("sms", Context.MODE_PRIVATE)
 
         edtPhone.setText(load("Phone", ""))
+        edtPhone2.setText(load("Phone2", ""))
         edtMessage.setText(load("Message", "TEST"))
         edtDate.setText(load("Date", "yyyyMMdd HH:mm:ss"))
         edtTotal.setText(load("Total", "3"))
@@ -61,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun send(){
         save("Phone", edtPhone.text.toString())
+        save("Phone2", edtPhone2.text.toString())
         save("Message", edtMessage.text.toString())
         save("Date", edtDate.text.toString())
         save("Total", edtTotal.text.toString())
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         Thread {
             repeat(edtTotal.text.toString().toInt()) {
                 sendSms(
-                    edtPhone.text.toString(),
+                    getPhoneNumber(),
                     if (edtCount.isChecked) {
                         "[$it] ${createMessage()}"
                     } else {
@@ -79,6 +79,20 @@ class MainActivity : AppCompatActivity() {
                 Thread.sleep(edtInterval.text.toString().toLong())
             }
         }.start()
+    }
+
+    var switch = true
+    private fun getPhoneNumber(): String {
+        return if (edtPhone2.text.isNullOrBlank()) {
+            edtPhone.text.toString().trim()
+        } else {
+            switch = switch.not()
+            if (switch) {
+                edtPhone.text.toString().trim()
+            } else {
+                edtPhone2.text.toString().trim()
+            }
+        }
     }
 
     private fun sendSms(phone: String, message: String) {
